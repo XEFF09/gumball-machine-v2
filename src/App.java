@@ -176,19 +176,22 @@ class HasQuarter implements State {
 
   public void turnsCrank() {
 
-    if (this.
-     
-
+    if (this.gumballMachine.getFlavor() == "") {
+      System.out.println("You have to choose the flavor first");
+      return; 
     }
-    
-    System.out.println("You turned...");
-    int winner = randomWinner.nextInt(10);
 
-    if ((winner == 0) && (this.gumballMachine.getCount() > 1)) {
-      this.gumballMachine.setState(this.gumballMachine.getWinnerState());
-    } else {
-      this.gumballMachine.setState(this.gumballMachine.getSoldState());
-    }
+  System.out.println("You turned...");
+
+  int winner = randomWinner.nextInt(10);
+
+  if((winner==0)&&(this.gumballMachine.getCount()>1))
+  {
+    this.gumballMachine.setState(this.gumballMachine.getWinnerState());
+  }else
+  {
+    this.gumballMachine.setState(this.gumballMachine.getSoldState());
+  }
   }
 
   public void dispenseGumball() {
