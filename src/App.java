@@ -30,6 +30,8 @@ interface State {
 
   public void ejectQuarter();
 
+  public void chooseFlavor(String flavor);
+
   public void turnsCrank();
 
   public void dispenseGumball();
@@ -66,8 +68,7 @@ class GumballMachine {
   }
 
   public void chooseFlavor(String flavor) {
-    this.gumballFlavor = flavor;
-    System.out.println("You have chosen the flavor " + this.gumballFlavor);
+    state.chooseFlavor(flavor);
   }
 
   public void ejectQuarter() {
@@ -76,8 +77,8 @@ class GumballMachine {
 
   public void turnsCrank() {
     state.turnsCrank();
-
     state.dispenseGumball();
+    this.setFlavor("");
   }
 
   public void setState(State state) {
@@ -119,6 +120,10 @@ class GumballMachine {
     return this.gumballFlavor;
   }
 
+  public void setFlavor(String flavor) {
+    this.gumballFlavor = flavor;
+  }
+
   @Override
   public String toString() {
     return "GumballMachine [state=" + state + ", count=" + count + "]";
@@ -144,7 +149,7 @@ class NoQuarter implements State {
   }
 
   public void chooseFlavor(String flavor) {
-
+    System.out.println("You need to insert a quarter first before choosing the flavor");
   }
 
   public void turnsCrank() {
@@ -169,9 +174,18 @@ class HasQuarter implements State {
     System.out.println("You can't insert another quarter");
   }
 
+  public void chooseFlavor(String flavor) {
+    this.gumballMachine.setFlavor(flavor);
+    System.out.println("You have chosen the flavor " + this.gumballMachine.getFlavor());
+  }
+
   public void ejectQuarter() {
     System.out.println("Quarter returned");
     this.gumballMachine.setState(this.gumballMachine.getNoQuarterState());
+  }
+
+  public void chooseFlavor() {
+    System.out.println("You can choose the flavor now");
   }
 
   public void turnsCrank() {
@@ -215,6 +229,10 @@ class GumballSold implements State {
     System.out.println("Sorry, you already turned the crank");
   }
 
+  public void chooseFlavor(String flavor) {
+    System.out.println("You can't choose the flavor now");
+  }
+
   public void turnsCrank() {
     System.out.println("Turning twice doesn't get you another gumball!");
   }
@@ -246,6 +264,10 @@ class OutOfGumballs implements State {
     System.out.println("You haven't inserted a quarter");
   }
 
+  public void chooseFlavor(String flavor) {
+    System.out.println("You can't choose the flavor, the machine is sold out");
+  }
+
   public void turnsCrank() {
     System.out.println("You turned but there are no gumballs");
   }
@@ -269,6 +291,10 @@ class Winner implements State {
 
   public void ejectQuarter() {
     System.out.println("Sorry, you already turned the crank");
+  }
+
+  public void chooseFlavor(String flavor) {
+    System.out.println("You can't choose the flavor now");
   }
 
   public void turnsCrank() {
